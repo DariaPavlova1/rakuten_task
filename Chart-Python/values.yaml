@@ -1,6 +1,6 @@
 # Default Values for my Helm Chart
 
 container:
-  image: franksword/python-docker:basic
+  image: franksword/python-docker:v1
 
 replicaCount: 2

@@ -40,8 +40,8 @@ def get_info():
   return {os.getenv("ENVIRONMENT")}
 
 info = [
-  {'git':'githash',
-  'branch':'development-branch',
+  {'git':os.environ["GITHASH"],
+  'branch':os.environ["GITBRANCH"],
   'env': 'stg',
   'hostname': 'hostname'}
 ]
