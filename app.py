@@ -4,7 +4,10 @@
 #         2. POST will increment the counter by 2 and return the same value.
 #         3. DELETE will decrement the counter by 1 and return the same value.
 
-from flask import Flask, json
+from flask import Flask, json, request, jsonify
+from dotenv import load_dotenv
+load_dotenv()
+import os
 
 counter = 0
 
@@ -32,5 +35,21 @@ def delete_counter():
 
   return str(counter)
 
+@api.route('/info', methods=['GET'])
+def get_info():
+  return {os.getenv("ENVIRONMENT")}
+
+info = [
+  {'git':'githash',
+  'branch':'development-branch',
+  'env': 'stg',
+  'hostname': 'hostname'}
+]
+
+@api.route('/info/', methods=['GET'])
+def api_all():
+    return jsonify(info)
+
 if __name__ == '__main__':
     api.run() 
+
