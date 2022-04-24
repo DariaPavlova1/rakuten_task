@@ -31,7 +31,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: v2
+        tags: v1
         labels: python-flask
         build-args: |
           GITHASH=$(git rev-parse --short "$GITHUB_SHA")
