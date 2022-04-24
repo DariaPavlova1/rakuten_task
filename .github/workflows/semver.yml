@@ -2,7 +2,7 @@ name: Build and deploy
 on:
   push:
     branches: [ workflows ]
-jobs:
+jobs: 
   Tag-and-release:
     runs-on: ubuntu-latest
     steps:
