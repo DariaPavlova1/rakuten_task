@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: dariapavlovarakutentask 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dariapavlovarakutentask
+  template:
+    metadata:
+      labels:
+        app: dariapavlovarakutentask 
+    spec:
+      containers:
+        - name: dariapavlovarakutentask 
+          image: franksregisty.azurecr.io/dariapavlovarakutentask
+          ports:
+          - containerPort: 5000
