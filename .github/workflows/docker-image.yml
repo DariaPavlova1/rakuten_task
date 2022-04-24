@@ -15,10 +15,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag python-docker:$(date +%s)
+      run: docker build . --file Dockerfile --tag python-docker:v2
     - name: Tag Image
-      run: docker tag python-docker:$(date +%s) ${{secrets.DOCKER_USER}}/python-docker:$(date +%s)
+      run: docker tag python-docker:v2 franksword/python-docker:v2
     - name: Login to DockerHub
       run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Push to DockerHub
-      run: docker push ${{secrets.DOCKER_USER}}/python-docker:$(date +%s)
+      run: docker push franksword/python-docker:v2
