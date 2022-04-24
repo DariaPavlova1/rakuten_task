@@ -15,5 +15,5 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s) --build-arg GITHASH=$(git rev-parse --short "$GITHUB_SHA") GITBRANCH=${GITHUB_REF#refs/heads/}
+      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s) --build-arg GITHASH=$(git rev-parse --short "$GITHUB_SHA") --build-arg GITBRANCH=${GITHUB_REF#refs/heads/}
     
