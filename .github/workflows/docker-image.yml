@@ -8,6 +8,7 @@ on:
 env:
   DOCKER_USER: ${{secrets.DOCKER_USER}}
   DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+  
 jobs:
 
   build:
@@ -19,7 +20,7 @@ jobs:
     - name: Branch name
       run: echo running on branch ${GITHUB_REF##*/}
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag python-docker:${GITHUB_REF##*/}-v2
+      run: docker build . --file Dockerfile --tag python-docker:${GITHUB_REF##*/}-v2 --build-arg ${GITHUB_SHA} --build-arg ${GITHUB_REF##*/}
     - name: Tag Image
       run: docker tag python-docker:${GITHUB_REF##*/}-v2 franksword/python-docker:${GITHUB_REF##*/}-v2
     - name: Login to DockerHub
