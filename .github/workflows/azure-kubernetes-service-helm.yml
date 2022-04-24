@@ -33,10 +33,10 @@
 name: Build and deploy an app to AKS with Helm
 
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+  workflow_run:
+    workflows: ["Docker Image CI"]
+    types:
+      - completed
 
 env:
   AZURE_CONTAINER_REGISTRY: "your-azure-container-registry"
