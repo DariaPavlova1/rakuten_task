@@ -5,8 +5,7 @@
 #         3. DELETE will decrement the counter by 1 and return the same value.
 
 from flask import Flask, json, request, jsonify
-from dotenv import load_dotenv
-load_dotenv()
+
 import os
 
 counter = 0
@@ -40,8 +39,8 @@ def get_info():
   return {os.getenv("ENVIRONMENT")}
 
 info = [
-  {'git':os.environ["GITHASH"],
-  'branch':os.environ["GITBRANCH"],
+  {'git': 'stg',
+  'branch': 'stg',
   'env': 'stg',
   'hostname': 'hostname'}
 ]
