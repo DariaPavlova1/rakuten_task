@@ -4,9 +4,9 @@
 #         2. POST will increment the counter by 2 and return the same value.
 #         3. DELETE will decrement the counter by 1 and return the same value.
 
-from flask import Flask, json, request, jsonify
+from flask import Flask, json, request, jsonify, render_template
 
-import os
+import os, socket
 
 counter = 0
 
@@ -48,6 +48,15 @@ info = [
 @api.route('/info/', methods=['GET'])
 def api_all():
     return jsonify(info)
+
+@api.route("/info_test")
+def index():
+    try:
+        host_name = socket.gethostname()
+        host_ip = socket.gethostbyname(host_name)
+        return render_template('info.json', hostname=host_name, ip=host_ip, env=os.environ)
+    except:
+        return render_template('error.html')
 
 if __name__ == '__main__':
     api.run() 
