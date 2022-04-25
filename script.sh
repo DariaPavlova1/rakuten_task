@@ -1,34 +1,4 @@
 #!/bin/bash
-########################################################
-## Shell Script to Build Docker Image by FOSSTechNix.com   
-########################################################
-# DATE=`date +%Y.%m.%d.%H.%M`
-# username=<git username>
-# password=<password>
-# DIR=/home/sivasaisagar/helloworld
-# FILE=/home/sivasaisagar/output
-# container_name=helloworld
-# if [ -d "$DIR" ];
-# then
-# printf '%s\n' "helloworld dir ($DIR)"
-# rm -rf "$DIR"
-# else
-# echo "now no helloworld a dir"
-# fi
-# echo "cloning a helloworld dir"
-# sudo git clone https://<username>:<password>@github.com/USivaSaiSagar/helloworld.git
-# result=$( sudo docker images -q helloworld )
-# if [[ -n "$result" ]]; then
-# echo "image exists"
-# sudo docker rmi -f helloworld
-# else
-# echo "No such image"
-# fi
-# echo "change the dir"
-
-# echo "delete output file"
-# cd /home/sivasaisagar/helloworld/
-
 
 echo "Creating virtual environment"
 python3 -m venv venv
@@ -38,6 +8,12 @@ source venv/bin/activate
 
 echo "Install the requirements"
 pip install -r requirements.txt
+
+echo "Getting git branch"
+branch=$(git symbolic-ref --short HEAD)
+
+jq --arg newkey "$branch" '(.HeaderAuthentication.Headers[] | select(.Name == "branch")).Value |= $newkey' ./templates/info.json
+jq '.branch = main' ./templates/info.json|sponge ./templates/info.json
 
 echo "build the docker image"
 docker build --tag python-docker  .
