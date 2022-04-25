@@ -6,10 +6,10 @@
 
 from flask import Flask, json, request, jsonify, render_template
 
-import os, socket
+import os, socket, subprocess
 
 counter = 0
-
+git = subprocess.check_output(["git", "describe", "--always"]).strip().decode()
 api = Flask(__name__)
 
 
@@ -38,23 +38,12 @@ def delete_counter():
 def get_info():
   return {os.getenv("ENVIRONMENT")}
 
-info = [
-  {'git': 'stg',
-  'branch': 'stg',
-  'env': 'stg',
-  'hostname': 'hostname'}
-]
-
-@api.route('/info/', methods=['GET'])
-def api_all():
-    return jsonify(info)
-
-@api.route("/info_test")
+@api.route("/info")
 def index():
     try:
         host_name = socket.gethostname()
         host_ip = socket.gethostbyname(host_name)
-        return render_template('info.json', hostname=host_name, ip=host_ip, env=os.environ)
+        return render_template('info.json', hostname=host_name, env=os.environ)
     except:
         return render_template('error.html')
 

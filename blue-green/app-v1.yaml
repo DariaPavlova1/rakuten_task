@@ -1,0 +1,41 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: blue-deployment
+  labels:
+    app : blue-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      project: blue-green
+  template:
+    metadata:
+      labels:
+        project: blue-green   # Service will look for those PODS Labels!!!
+    spec:
+      containers:
+        - name : python-flask
+          image: franksword/python-docker:v4.3
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: universal-service
+  labels:
+    env  : prod
+    owner: DariaPavlova
+spec:
+  selector:
+    project: blue-green    # Selecting PODS with those Labels
+    app: python-flask
+    version: blue
+  ports:
+    - name      : blue-green-listener
+      protocol  : TCP
+      port      : 5000  # Port on Load Balancer
+      targetPort: 5000
+  type: LoadBalancer
+
