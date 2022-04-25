@@ -45,3 +45,7 @@ pip install -r requirements.txt
 ### 5. Run the application
 `python app.py`
 
+## OR just to simply build and run Docker container with python-flask application run the script
+
+`bash script.sh` or
+`. script.sh`
