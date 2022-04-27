@@ -9,15 +9,24 @@ source venv/bin/activate
 echo "Install the requirements"
 pip install -r requirements.txt
 
-echo "Getting git branch"
-branch=$(git symbolic-ref --short HEAD)
+echo "Get branch"
+GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
-jq --arg newkey "$branch" '(.HeaderAuthentication.Headers[] | select(.Name == "branch")).Value |= $newkey' ./templates/info.json
-jq '.branch = main' ./templates/info.json|sponge ./templates/info.json
+echo "Get commit hash"
+GIT_COMMIT=$(git log -1 --format=%h)
+
+echo "Write data to info json"
+contents="$(git_commit=${git_hash}; jq --arg git_commit "$git_commit" '.[] .git_hash = $git_commit' templates/info.json)" && \
+echo -E "${contents}" > templates/info.json
+contents="$(git_branch=${git_branch}; jq --arg git_branch "$git_branch" '.[] .branch = $git_branch' templates/info.json)" && \
+echo -E "${contents}"
+
+git_branch=${GIT_BRANCH}; jq --arg git_branch "$git_branch" '.[] | .branch = $git_branch' templates/info.json 
 
 echo "build the docker image"
-docker build --tag python-docker  .
-# sudo docker build -t helloworld/sivasai:$DATE . >> /home/sivasaisagar/output
+docker build --tag python-docker\
+ --build-arg GIT_COMMIT=$(git log -1 --format=%h) --build-arg GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD) . 
+
 echo "built docker images and proceeding to delete existing container"
 docker ps --filter "name=python-docker"
 result=$( docker ps -q -f name=python-docker )

@@ -1,1 +1,8 @@
-[{"branch":"{{ branch }}","env":"{{ env }}","git_hash":"hash","hostname":"{{ hostname }}"}]
+[
+{
+  "branch": "main",
+  "env": "{{ env }}",
+  "git_hash": "1df7f82",
+  "hostname": "{{ hostname }}"
+}
+]
